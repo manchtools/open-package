@@ -16,7 +16,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/MANCHTOOLS/open-package/internal/packager"
+	"github.com/MANCHTOOLS/open-package/packager"
 )
 
 const (

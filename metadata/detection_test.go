@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/MANCHTOOLS/open-package/internal/crypto"
+	"github.com/MANCHTOOLS/open-package/crypto"
 )
 
 func TestGenerateDetectionXML(t *testing.T) {

@@ -28,8 +28,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/MANCHTOOLS/open-package/internal/crypto"
-	"github.com/MANCHTOOLS/open-package/internal/metadata"
+	"github.com/MANCHTOOLS/open-package/crypto"
+	"github.com/MANCHTOOLS/open-package/metadata"
 )
 
 // Options contains the configuration for package creation

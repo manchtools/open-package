@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/MANCHTOOLS/open-package/internal/metadata"
+	"github.com/MANCHTOOLS/open-package/metadata"
 )
 
 func TestCreatePackage(t *testing.T) {

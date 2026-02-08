@@ -14,7 +14,7 @@ import (
 	"encoding/xml"
 	"fmt"
 
-	"github.com/MANCHTOOLS/open-package/internal/crypto"
+	"github.com/MANCHTOOLS/open-package/crypto"
 )
 
 const (
