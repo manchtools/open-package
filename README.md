@@ -9,7 +9,7 @@ A cross-platform Go library and CLI for creating `.intunewin` packages for Micro
 
 - Creates `.intunewin` packages compatible with Microsoft Intune
 - Cross-platform (Windows, macOS, Linux)
-- No dependencies on Microsoft tools
+- Pure GO implementation
 - AES-256-CBC encryption with HMAC-SHA256 authentication
 - Generates proper `Detection.xml` metadata
 - Usable as a Go library or standalone CLI
