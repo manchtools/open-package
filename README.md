@@ -181,3 +181,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Disclaimer
 
 This is an independent implementation not affiliated with or endorsed by Microsoft. The `.intunewin` format is not officially documented by Microsoft.
+
+This code was written by AI (Claude) with minimal human input, based on the reverse-engineered documentation referenced above. Use at your own risk.
