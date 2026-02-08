@@ -1,5 +1,8 @@
 # open-package
 
+> **Warning**
+> This project is experimental and under development. APIs may change without notice.
+
 A cross-platform Go library and CLI for creating `.intunewin` packages for Microsoft Intune Win32 app deployment.
 
 ## Features
