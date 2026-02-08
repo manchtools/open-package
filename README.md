@@ -1,6 +1,6 @@
 # open-package
 
-> **Warning**
+> [!WARNING]
 > This project is experimental and under development. APIs may change without notice.
 
 A cross-platform Go library and CLI for creating `.intunewin` packages for Microsoft Intune Win32 app deployment.
@@ -16,11 +16,6 @@ A cross-platform Go library and CLI for creating `.intunewin` packages for Micro
 
 ## Installation
 
-### Go Library
-
-```bash
-go get github.com/MANCHTOOLS/open-package
-```
 
 ### CLI from Source
 
@@ -31,6 +26,59 @@ go install github.com/MANCHTOOLS/open-package/cmd/open-package@latest
 ### Pre-built Binaries
 
 Download from the [Releases](../../releases) page.
+
+### Go Library
+
+```bash
+go get github.com/MANCHTOOLS/open-package
+```
+
+## CLI Usage
+
+```bash
+open-package -source <folder> -setup <file> [-output <dir>]
+```
+
+### Options
+
+| Flag | Description | Required |
+|------|-------------|----------|
+| `-source` | Source folder containing the application files | Yes |
+| `-setup` | Name of the setup file (e.g., `install.exe`) within the source folder | Yes |
+| `-output` | Output directory for the `.intunewin` file (default: current directory) | No |
+| `-quiet` | Suppress progress output | No |
+| `-version` | Show version information | No |
+
+### Example
+
+```bash
+# Package an application
+open-package -source ./myapp -setup install.exe -output ./output
+
+# Quiet mode (only outputs the path to the created file)
+open-package -source ./myapp -setup install.exe -quiet
+```
+
+## Output Format
+
+The generated `.intunewin` file is a ZIP archive with the following structure:
+
+```
+├── IntuneWinPackage/
+│   ├── Contents/
+│   │   └── IntunePackage.intunewin  (encrypted content)
+│   └── Metadata/
+│       └── Detection.xml            (encryption metadata)
+```
+
+### Detection.xml
+
+Contains metadata required by Intune to decrypt and deploy the application:
+
+- Application name and setup file
+- Encryption keys (AES-256, base64 encoded)
+- HMAC for integrity verification
+- SHA256 hash of original content
 
 ## Library Usage
 
@@ -99,53 +147,6 @@ b64Info := encInfo.ToBase64()
 fmt.Println("Encryption Key:", b64Info.EncryptionKey)
 fmt.Println("MAC Key:", b64Info.MacKey)
 ```
-
-## CLI Usage
-
-```bash
-open-package -source <folder> -setup <file> [-output <dir>]
-```
-
-### Options
-
-| Flag | Description | Required |
-|------|-------------|----------|
-| `-source` | Source folder containing the application files | Yes |
-| `-setup` | Name of the setup file (e.g., `install.exe`) within the source folder | Yes |
-| `-output` | Output directory for the `.intunewin` file (default: current directory) | No |
-| `-quiet` | Suppress progress output | No |
-| `-version` | Show version information | No |
-
-### Example
-
-```bash
-# Package an application
-open-package -source ./myapp -setup install.exe -output ./output
-
-# Quiet mode (only outputs the path to the created file)
-open-package -source ./myapp -setup install.exe -quiet
-```
-
-## Output Format
-
-The generated `.intunewin` file is a ZIP archive with the following structure:
-
-```
-├── IntuneWinPackage/
-│   ├── Contents/
-│   │   └── IntunePackage.intunewin  (encrypted content)
-│   └── Metadata/
-│       └── Detection.xml            (encryption metadata)
-```
-
-### Detection.xml
-
-Contains metadata required by Intune to decrypt and deploy the application:
-
-- Application name and setup file
-- Encryption keys (AES-256, base64 encoded)
-- HMAC for integrity verification
-- SHA256 hash of original content
 
 ## Technical Details
 
