@@ -1,6 +1,6 @@
-# IntuneWin Packager
+# open-package
 
-A cross-platform Go tool for creating `.intunewin` packages for Microsoft Intune Win32 app deployment.
+A cross-platform Go library and CLI for creating `.intunewin` packages for Microsoft Intune Win32 app deployment.
 
 ## Features
 
@@ -9,23 +9,98 @@ A cross-platform Go tool for creating `.intunewin` packages for Microsoft Intune
 - No dependencies on Microsoft tools
 - AES-256-CBC encryption with HMAC-SHA256 authentication
 - Generates proper `Detection.xml` metadata
+- Usable as a Go library or standalone CLI
 
 ## Installation
 
-### From Source
+### Go Library
 
 ```bash
-go build -o intunewin-packager .
+go get github.com/MANCHTOOLS/open-package
+```
+
+### CLI from Source
+
+```bash
+go install github.com/MANCHTOOLS/open-package/cmd/open-package@latest
 ```
 
 ### Pre-built Binaries
 
 Download from the [Releases](../../releases) page.
 
-## Usage
+## Library Usage
+
+### Simple API
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+
+    openpackage "github.com/MANCHTOOLS/open-package"
+)
+
+func main() {
+    outputPath, err := openpackage.CreatePackage(openpackage.Options{
+        SourceDir: "/path/to/app",
+        SetupFile: "install.exe",
+        OutputDir: "/path/to/output",
+        Quiet:     true,
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("Created:", outputPath)
+}
+```
+
+### Using Sub-packages
+
+For more control, import the sub-packages directly:
+
+```go
+import (
+    "github.com/MANCHTOOLS/open-package/packager"  // Package creation
+    "github.com/MANCHTOOLS/open-package/crypto"    // AES-256-CBC encryption
+    "github.com/MANCHTOOLS/open-package/metadata"  // Detection.xml generation
+)
+
+// Create a packager with custom options
+pkg := packager.New(packager.Options{
+    SourceDir: "/path/to/app",
+    SetupFile: "install.exe",
+    OutputDir: "/path/to/output",
+    Quiet:     false,
+})
+
+outputPath, err := pkg.CreatePackage()
+```
+
+### Encryption Only
+
+```go
+import "github.com/MANCHTOOLS/open-package/crypto"
+
+// Encrypt arbitrary data
+plaintext := []byte("your data here")
+encInfo, encryptedData, err := crypto.Encrypt(plaintext)
+if err != nil {
+    log.Fatal(err)
+}
+
+// Get base64-encoded keys for Detection.xml
+b64Info := encInfo.ToBase64()
+fmt.Println("Encryption Key:", b64Info.EncryptionKey)
+fmt.Println("MAC Key:", b64Info.MacKey)
+```
+
+## CLI Usage
 
 ```bash
-./intunewin-packager -source <folder> -setup <file> [-output <dir>]
+open-package -source <folder> -setup <file> [-output <dir>]
 ```
 
 ### Options
@@ -42,10 +117,10 @@ Download from the [Releases](../../releases) page.
 
 ```bash
 # Package an application
-./intunewin-packager -source ./myapp -setup install.exe -output ./output
+open-package -source ./myapp -setup install.exe -output ./output
 
 # Quiet mode (only outputs the path to the created file)
-./intunewin-packager -source ./myapp -setup install.exe -quiet
+open-package -source ./myapp -setup install.exe -quiet
 ```
 
 ## Output Format
